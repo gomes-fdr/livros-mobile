@@ -1,0 +1,14 @@
+<ion-view title="Lista de Livros" id="page2" class=" ">
+    <ion-content padding="true" class="has-header">
+        <ion-list id="listaDeLivros-list2" class=" " ng-repeat="book in books">
+            <ion-item class="item-thumbnail-left item-icon-right  " id="listaDeLivros-list-item1" ui-sref="autenticaO">
+                <h2>{{book.title}}</h2>
+                <p>Autor: {{book.author}}</p>
+                <p>ISBN: {{book.isbn}}</p>
+                <i class="icon ion-information-circled"></i>
+            </ion-item>
+            
+        </ion-list>
+        <a ui-sref="livro" id="listaDeLivros-button10" class=" button button-positive  button-block ">Publicar Livro</a>
+    </ion-content>
+</ion-view>

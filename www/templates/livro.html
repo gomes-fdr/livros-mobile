@@ -1,0 +1,27 @@
+<ion-view title="Livro" id="page8" class=" ">
+    <ion-content padding="true" class="has-header">
+        <div style="margin: 0px; line-height: 250px; text-align: center; background-color: rgb(232, 235, 239);">
+            <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+        </div>
+        <form id="livro-form3" class="list ">
+            <label class="item item-input " id="livro-input4">
+                <span class="input-label">Titulo</span>
+                <input ng-model="titulo" type="text" placeholder="">
+            </label>
+            <label class="item item-input " id="livro-input5">
+                <span class="input-label">Autor</span>
+                <input ng-model="autor" type="text" placeholder="">
+            </label>
+            <label class="item item-input " id="livro-input6">
+                <span class="input-label">ISBN</span>
+                <input ng-model="isbn" type="text" placeholder="">
+            </label>
+            <ion-checkbox>Doação realizada</ion-checkbox>
+        </form>
+        <div id="livro-button-bar1" class=" button-bar ">
+            <button ng-click="foto()" id="livro-button7" class=" button button-positive  button-block icon ion-android-camera "></button>
+            <button ng-click="gravar(titulo, autor, isbn)" id="livro-button8" class=" button button-positive  button-block icon ion-android-done "></button>
+            <button ng-click="sair()" id="livro-button9" class=" button button-positive  button-block icon ion-android-cancel "></button>
+        </div>
+    </ion-content>
+</ion-view>
