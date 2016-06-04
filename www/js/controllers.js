@@ -73,6 +73,16 @@ angular.module('app.controllers', [])
 .controller('livroCtrl', function($scope, $location, $firebaseArray) {
 	$scope.foto = function(){
 		console.log("Bater foto da capa...");
+
+		var books = require('google-books-search');
+
+		books.search('Cinquenta tons de cinza', function(error, results) {
+    		if ( ! error ) {
+        		console.log(results);
+    		} else {
+        		console.log(error);
+    		}
+		});
 	}
 
 	$scope.gravar = function(titulo, autor, isbn) {
