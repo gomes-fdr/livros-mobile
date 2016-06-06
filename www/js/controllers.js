@@ -1,5 +1,5 @@
 angular.module('app.controllers', [])
-  
+
 .controller('listaDeLivrosCtrl', function($scope, $firebaseObject) {
    	$scope.books = [];
 
