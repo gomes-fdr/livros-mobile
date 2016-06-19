@@ -1,57 +1,66 @@
 angular.module('app.controllers', [])
   
 .controller('listaDeLivrosCtrl', function($scope, $firebaseObject) {
-   	$scope.books = [];
+    $scope.books = [];
 
-	var syncObject = $firebaseObject(fb.child("/"));
+    var syncObject = $firebaseObject(firebase.database().ref('livros/'));
     syncObject.$bindTo($scope, "books");
-	
 })
    
 .controller('autenticaOCtrl', function($scope, $firebaseAuth, $location) {
+    
+    var user = firebase.auth().currentUser;
+    
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            // User is signed in.
+            console.log('Logado');
+            
+            
+            console.log('user: ' + user.email);
+            console.log('uid: ' + user.uid);
+            
+            firebase.auth().signOut().then(function() {
+                // Sign-out successful.
+                console.log('fiz logout');
+            }, function(error) {
+                // An error happened.
+            });
+            
+        } else {
+        // No user is signed in.
+            console.log('NAO Logado');
+        }
+    });
 
-	$scope.entrar = function(username, password) {
-		console.log("Entrar com usuário existente");
+    // email de teste: teste@gmail.com
+    // senha de teste: 123456fg
+    $scope.entrar = function(user) {
+        console.log("Entrar com usuário existente");
 
-		var fbAuth = $firebaseAuth(fb);
-
-		console.log("nome: " + username);
-		console.log("senha: " + password);
-
-		fbAuth.$authWithPassword({
-            email: username,
-            password: password
-        }).then(function(authData) {
-            $location.path("/page5");
-        }).catch(function(error) {
-            console.error("ERROR: " + error);
-
-            // Depois q autenticar estiver funcionando, retirar isso daqui!
-            // ainda não temos uma versão do angularfire para firebase sdk v3, por isso não funciona.
-            $location.path("/page5");
+        console.log("nome: " + user.email);
+        console.log("senha: " + user.password);
+        
+        firebase.auth().signInWithEmailAndPassword(user.email, user.password).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            
+            console.log(error.message);
         });
-	}
 
-	$scope.registrar = function(username, password) {
-		console.log("Registrar novo usuário...");
+        
+    }
 
-		var fbAuth = $firebaseAuth(fb);
-
-		console.log("nome: " + username);
-		console.log("senha: " + password);
-
-		fbAuth.$authWithPassword({
-            email: username,
-            password: password
-        }).then(function(authData) {
-            $location.path("/page5");
-        }).catch(function(error) {
-            console.error("ERROR: " + error);
-
-            // Depois q autenticar estiver funcionando, retirar isso daqui!
-            $location.path("/page5");
+    $scope.registrar = function(user) {
+        console.log("Registrar novo usuário...");
+        
+        firebase.auth().createUserWithEmailAndPassword(user.email, user.password).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            
+            console.log(error.message);
         });
-	}
+    }
 })
    
 .controller('detalhesDoLivroCtrl', function($scope) {
@@ -71,27 +80,27 @@ angular.module('app.controllers', [])
 })
    
 .controller('livroCtrl', function($scope, $location, $firebaseArray) {
-	$scope.foto = function(){
-		console.log("Bater foto da capa...");
-	}
+    $scope.foto = function(){
+        console.log("Bater foto da capa...");
+    }
 
-	$scope.gravar = function(titulo, autor, isbn) {
-		console.log("Gravar novo livro...");
+    $scope.gravar = function(titulo, autor, isbn) {
+        console.log("Gravar novo livro...");
 
-		// var book = new Firebase(URL).child("books");
+        // var book = new Firebase(URL).child("books");
 
 
-		var book = $firebaseArray(fb);
-		book.$add({title: titulo, author: autor, isbn: isbn});
+        var book = $firebaseArray(fb);
+        book.$add({title: titulo, author: autor, isbn: isbn});
 
-		$location.path("/page2");
-	}
+        $location.path("/page2");
+    }
 
-	$scope.sair = function() {
+    $scope.sair = function() {
 
-		$location.path("/page2");
+        $location.path("/page2");
 
-	}
+    }
 
 })
  

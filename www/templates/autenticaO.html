@@ -5,17 +5,17 @@
             <ion-list id="autenticaO-list1" class=" ">
                 <label class="item item-input " id="autenticaO-input2">
                     <span class="input-label">Usuário</span>
-                    <input ng-model="username" type="email" placeholder="">
+                    <input ng-model="user.email" type="email" placeholder="">
                 </label>
                 <label class="item item-input " id="autenticaO-input3">
                     <span class="input-label">Senha</span>
-                    <input ng-model="password" type="password" placeholder="">
+                    <input ng-model="user.password" type="password" placeholder="">
                 </label>
             </ion-list>
         </form>
         <div id="autenticaO-button-bar2" class=" button-bar ">
-            <button ng-click="registrar(username, password)" id="autenticaO-button11" class=" button button-positive  button-block ">Registrar</button>
-            <button ng-click="entrar(username, password)" id="autenticaO-button12" class=" button button-positive  button-block ">Entrar</button>
+            <button ng-click="registrar(user)" id="autenticaO-button11" class=" button button-positive  button-block ">Registrar</button>
+            <button ng-click="entrar(user)" id="autenticaO-button12" class=" button button-positive  button-block ">Entrar</button>
         </div>
     </ion-content>
 </ion-view>

@@ -20,7 +20,20 @@ angular.module('app', ['ionic', 'firebase','app.controllers', 'app.routes', 'app
       StatusBar.styleDefault();
     }
 
-    fb = new Firebase("https://project-2644857297739104734.firebaseio.com");
+    //~ fb = new Firebase("https://project-2644857297739104734.firebaseio.com");
+    
+    // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAhsc8Pmy1oMm3-edOCZ2Tupf2Z-Zi_nkM",
+        authDomain: "project-2644857297739104734.firebaseapp.com",
+        databaseURL: "https://project-2644857297739104734.firebaseio.com",
+        storageBucket: "project-2644857297739104734.appspot.com",
+      };
+      
+      firebase.initializeApp(config);
+      
+      
+      
 
   });
 })
