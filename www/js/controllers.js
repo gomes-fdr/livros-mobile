@@ -1,7 +1,8 @@
 angular.module('app.controllers', [])
   
 .controller('listaDeLivrosCtrl', function($scope, $firebaseObject) {
-    $scope.books = [];
+  
+	$scope.books = [];
 
     var syncObject = $firebaseObject(firebase.database().ref('livros/'));
     syncObject.$bindTo($scope, "books");
@@ -11,7 +12,7 @@ angular.module('app.controllers', [])
     
     var user = firebase.auth().currentUser;
     
-    firebase.auth().onAuthStateChanged(function(user) {
+    $scope.checkSession = firebase.auth().onAuthStateChanged(function(user){
         if (user) {
             // User is signed in.
             console.log('Logado');
@@ -20,19 +21,21 @@ angular.module('app.controllers', [])
             console.log('user: ' + user.email);
             console.log('uid: ' + user.uid);
             
-            firebase.auth().signOut().then(function() {
+            /*firebase.auth().signOut().then(function() {
                 // Sign-out successful.
                 console.log('fiz logout');
             }, function(error) {
                 // An error happened.
-            });
+            });*/
             
         } else {
         // No user is signed in.
             console.log('NAO Logado');
+			//$location.path("/page3");
         }
     });
-
+	//teste2@gmail.com
+	//senha 1234567
     // email de teste: teste@gmail.com
     // senha de teste: 123456fg
     $scope.entrar = function(user) {
@@ -42,13 +45,13 @@ angular.module('app.controllers', [])
         console.log("senha: " + user.password);
         
         firebase.auth().signInWithEmailAndPassword(user.email, user.password).catch(function(error) {
-            var errorCode = error.code;
+            console.log("Logando...");
+			var errorCode = error.code;
             var errorMessage = error.message;
             
             console.log(error.message);
         });
-
-        
+		$location.path("/page2");
     }
 
     $scope.registrar = function(user) {
@@ -61,10 +64,38 @@ angular.module('app.controllers', [])
             console.log(error.message);
         });
     }
+	
+	$scope.logoff = function(user) {
+		console.log('Logout');
+		firebase.auth().signOut().then(function() {
+                // Sign-out successful.
+                console.log('Logout bem sucedido');
+            }, function(error) {
+                // An error happened.
+            });
+	
+	}
 })
    
-.controller('detalhesDoLivroCtrl', function($scope) {
+.controller('detalhesDoLivroCtrl', function($scope, $firebaseAuth, $location) {
+	console.log("Acessando detalhes do livro");
+	var user = firebase.auth().currentUser;
+    
+    $scope.checkSession = firebase.auth().onAuthStateChanged(function(user){
+        if (user) {
+            // User is signed in.
+            console.log('Logado');
+            
+            
+            console.log('user: ' + user.email);
+            console.log('uid: ' + user.uid);
 
+        } else {
+        // No user is signed in.
+            console.log('Não logado, redirecionando');
+			$location.path("/page3");
+        }
+    });
 })
    
 .controller('detalhesDoLivro2Ctrl', function($scope) {
@@ -72,15 +103,49 @@ angular.module('app.controllers', [])
 })
    
 .controller('negociaODoLivroCtrl', function($scope) {
-
+	console.log("Acessando negociação do livro");
+	var user = firebase.auth().currentUser;
+    
+    $scope.checkSession = firebase.auth().onAuthStateChanged(function(user){
+        if (user) {
+            // User is signed in.
+            console.log('Logado');
+ 
+            console.log('user: ' + user.email);
+            console.log('uid: ' + user.uid);
+             
+        } else {
+        // No user is signed in.
+            console.log('Não logado, redirecionando');
+			$location.path("/page3");
+        }
+    });
 })
    
 .controller('meusLivrosCtrl', function($scope) {
-
+	console.log("Acessando meus livros");
+	var user = firebase.auth().currentUser;
+    
+    $scope.checkSession = firebase.auth().onAuthStateChanged(function(user){
+        if (user) {
+            // User is signed in.
+            console.log('Logado');
+            
+            
+            console.log('user: ' + user.email);
+            console.log('uid: ' + user.uid);
+            
+        } else {
+        // No user is signed in.
+            console.log('NAO Logado');
+			$location.path("/page3");
+        }
+    });
 })
    
 .controller('livroCtrl', function($scope, $location, $firebaseArray) {
-    $scope.foto = function(){
+    
+$scope.foto = function(){
         console.log("Bater foto da capa...");
     }
 
