@@ -8,7 +8,7 @@ angular.module('app.controllers', [])
     syncObject.$bindTo($scope, "books");
 })
    
-.controller('autenticaOCtrl', function($scope, $firebaseAuth, $location) {
+.controller('autenticaOCtrl', function($scope, $firebaseAuth, $location, $state) {
     
     var user = firebase.auth().currentUser;
     
@@ -16,10 +16,9 @@ angular.module('app.controllers', [])
         if (user) {
             // User is signed in.
             console.log('Logado');
-            
-            
             console.log('user: ' + user.email);
             console.log('uid: ' + user.uid);
+            $state.go("detalhesDoLivro");
             
             /*firebase.auth().signOut().then(function() {
                 // Sign-out successful.
@@ -31,9 +30,10 @@ angular.module('app.controllers', [])
         } else {
         // No user is signed in.
             console.log('NAO Logado');
-			//$location.path("/page3");
+			$state.go("autenticaO");
         }
     });
+    $state.go("listaDeLivros");
 	//teste2@gmail.com
 	//senha 1234567
     // email de teste: teste@gmail.com
@@ -51,7 +51,7 @@ angular.module('app.controllers', [])
             
             console.log(error.message);
         });
-		$location.path("/page2");
+		$state.go("listaDeLivros");
     }
 
     $scope.registrar = function(user) {
@@ -77,32 +77,44 @@ angular.module('app.controllers', [])
 	}
 })
    
-.controller('detalhesDoLivroCtrl', function($scope, $firebaseAuth, $location) {
-	console.log("Acessando detalhes do livro");
-	var user = firebase.auth().currentUser;
-    
+.controller('detalhesDoLivroCtrl', function($scope, $firebaseAuth, $location, $state) {
+    var user = firebase.auth().currentUser;
     $scope.checkSession = firebase.auth().onAuthStateChanged(function(user){
         if (user) {
-            // User is signed in.
-            console.log('Logado');
-            
-            
+            console.log('Logado lol');
             console.log('user: ' + user.email);
             console.log('uid: ' + user.uid);
-
         } else {
-        // No user is signed in.
             console.log('Não logado, redirecionando');
-			$location.path("/page3");
+			$state.go("autenticaO");
         }
     });
+
+    var ref = firebase.database().ref("livros");
+    ref.once("value")
+        .then(function(snapshot) {
+            var livra = snapshot.child("livros").val();
+            console.log("Livro inteiro " + livra);
+
+            var titulo = snapshot.child("2/title").val();
+            console.log("Só o título " + titulo);
+
+            var isbn = snapshot.child("3").child("isbn").val();
+            console.log("Só o título " + isbn);
+    });
+
+
+
+    $scope.livro = {};
+
+    
 })
    
 .controller('detalhesDoLivro2Ctrl', function($scope) {
 
 })
    
-.controller('negociaODoLivroCtrl', function($scope) {
+.controller('negociaODoLivroCtrl', function($scope, $state) {
 	console.log("Acessando negociação do livro");
 	var user = firebase.auth().currentUser;
     
@@ -117,12 +129,12 @@ angular.module('app.controllers', [])
         } else {
         // No user is signed in.
             console.log('Não logado, redirecionando');
-			$location.path("/page3");
+			$state.go("autenticaO");
         }
     });
 })
    
-.controller('meusLivrosCtrl', function($scope) {
+.controller('meusLivrosCtrl', function($scope, $state) {
 	console.log("Acessando meus livros");
 	var user = firebase.auth().currentUser;
     
@@ -138,12 +150,12 @@ angular.module('app.controllers', [])
         } else {
         // No user is signed in.
             console.log('NAO Logado');
-			$location.path("/page3");
+			$state.go("autenticaO");
         }
     });
 })
    
-.controller('livroCtrl', function($scope, $location, $firebaseArray) {
+.controller('livroCtrl', function($scope, $location, $firebaseArray, $state) {
     
 $scope.foto = function(){
         console.log("Bater foto da capa...");
@@ -155,15 +167,15 @@ $scope.foto = function(){
         // var book = new Firebase(URL).child("books");
 
 
-        var book = $firebaseArray(fb);
+        var book = $firebaseArray(firebase);
         book.$add({title: titulo, author: autor, isbn: isbn});
 
-        $location.path("/page2");
+        $state.go("listaDeLivros");
     }
 
     $scope.sair = function() {
 
-        $location.path("/page2");
+        $state.go("listaDeLivros");
 
     }
 

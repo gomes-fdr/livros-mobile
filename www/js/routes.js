@@ -10,7 +10,7 @@ angular.module('app.routes', [])
     
   
 
-      .state('listaDeLivros', {
+    .state('listaDeLivros', {
     url: '/page2',
     templateUrl: 'templates/listaDeLivros.html',
     controller: 'listaDeLivrosCtrl'
